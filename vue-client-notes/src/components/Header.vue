@@ -3,7 +3,6 @@
     <header>
         <h1>{{ title }}</h1>
         <Button @toggle-add-task="$emit('toggle-add-task')" :text="bttnStatus ? 'Close' : 'Add task'" :color="bttnStatus ? 'red' : 'green'" />
-        
     </header>
 </template>
 <!--we are exporting this template so it can be mounted by the app.vue-->
