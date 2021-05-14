@@ -1,9 +1,16 @@
 <template>
+
+<!--anything with : in front is a prop passed down from a higher file-->
   <div class="container">
     <!--we have a component called Header-->
     <!--we can pass props into our components-->
     <!--ex we can pass a title with the value Task Tracker-->
-  <Header title="Task Tracker"/>
+  <Header @toggle-add-task="toggleAddTask" title="Task Tracker" :bttnStatus = "showAddTask"/>
+  
+  <div v-show="showAddTask">
+  <AddTask @add-task="addTask" />
+  </div>
+
   <!--we are passing an array of dynamic data called tasks-->
   <!--we emitted from the lower level task file -> tasks file -> app file-->
   <!--the app file has access to the data and is able to change it by callinhg deleteTask method-->
@@ -18,6 +25,7 @@
 //first we import our components...
 import Header from './components/Header'
 import Tasks from './components/Tasks'
+import AddTask from './components/AddTask'
 
 export default {
   name: 'App',
@@ -25,14 +33,22 @@ export default {
     //...then register them in the export
     Header,
     Tasks,
+    AddTask,
   },
   data() {
     //returns the tasks data array
     return{
-      tasks: []
+      tasks: [],
+      showAddTask: false
       }
     },
     methods:{
+      toggleAddTask(){
+        this.showAddTask = !this.showAddTask
+      },
+      addTask(newTask){//calls the emited value and adds it to the list
+        this.tasks = [...this.tasks,newTask]
+      },
       deleteTask(id) { //will filter out the task we want with the the fileter method
         if (confirm('Are you sure?')){
         //will return all the tasks with an id NOT EQUALS to the passed id
